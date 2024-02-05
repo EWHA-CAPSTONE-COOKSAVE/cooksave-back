@@ -2,6 +2,7 @@ package CookSave.CookSaveback.Member.controller;
 
 import CookSave.CookSaveback.Member.dto.LoginRequestDto;
 import CookSave.CookSaveback.Member.dto.LoginResponseDto;
+import CookSave.CookSaveback.Member.dto.RefreshRequestDto;
 import CookSave.CookSaveback.Member.dto.SignUpRequestDto;
 import CookSave.CookSaveback.Member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,10 @@ public class MemberController {
     @PostMapping("/login")
     public LoginResponseDto login(@RequestBody LoginRequestDto requestDto){
         return memberService.login(requestDto.getCooksaveId(), requestDto.getPassword());
+    }
+
+    @PostMapping("/refresh")
+    public LoginResponseDto refresh(@RequestBody RefreshRequestDto refreshRequestDto){
+        return memberService.refresh(refreshRequestDto.getRefreshToken());
     }
 }

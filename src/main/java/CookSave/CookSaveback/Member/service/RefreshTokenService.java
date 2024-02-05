@@ -2,8 +2,10 @@ package CookSave.CookSaveback.Member.service;
 
 import CookSave.CookSaveback.Member.domain.RefreshToken;
 import CookSave.CookSaveback.Member.repository.RefreshTokenRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -12,5 +14,11 @@ public class RefreshTokenService {
 
     public void addRefreshToken(RefreshToken refreshToken){
         refreshTokenRepository.save(refreshToken);
+    }
+
+    @Transactional(readOnly = true)
+    public RefreshToken findRefreshToken(String refreshTokenValue){
+        return refreshTokenRepository.findByValue(refreshTokenValue)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 RefreshToken입니다."));
     }
 }
