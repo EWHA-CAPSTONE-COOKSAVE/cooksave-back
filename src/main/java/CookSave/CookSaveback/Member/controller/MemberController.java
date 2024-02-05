@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
 
+    // 회원가입
     @PostMapping("/signup")
     public ResponseEntity<String> signUp(@RequestBody SignUpRequestDto requestDto){
         return ResponseEntity.ok().body(memberService.signUp(requestDto.getCooksaveId(), requestDto.getPassword(), requestDto.getPasswordCheck()));
@@ -30,6 +31,7 @@ public class MemberController {
         return memberService.login(requestDto.getCooksaveId(), requestDto.getPassword());
     }
 
+    // RefreshToken을 이용해 새 AccessToken 발급 요청
     @PostMapping("/refresh")
     public LoginResponseDto refresh(@RequestBody RefreshRequestDto refreshRequestDto){
         return memberService.refresh(refreshRequestDto.getRefreshToken());
