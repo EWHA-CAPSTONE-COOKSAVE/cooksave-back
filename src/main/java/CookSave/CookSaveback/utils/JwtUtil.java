@@ -16,7 +16,7 @@ public class JwtUtil {
     // token에서 cooksaveId를 꺼내어 리턴하는 함수
     public static String getCooksaveId(String token, String secretKey) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().get("cooksavdId", String.class);
+                .getBody().get("cooksaveId", String.class);
     }
 
     // token을 만드는 함수. createAccessToken과 createRefreshToken이 이 함수를 호출.
