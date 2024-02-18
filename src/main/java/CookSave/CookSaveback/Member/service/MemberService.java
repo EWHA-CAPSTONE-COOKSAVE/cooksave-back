@@ -9,9 +9,13 @@ import io.jsonwebtoken.Claims;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +36,7 @@ public class MemberService {
     // Refresh 토큰 만료 시간을 7일로 설정
     private Long RefreshExpireTimeMs = 7 * 24 * 1000 * 60 * 60L;
 
+    // 회원가입
     public String signUp(String cooksaveId, String password, String passwordCheck){
         if(existsByCooksaveId(cooksaveId)) throw new RuntimeException(cooksaveId + "은 이미 존재하는 아이디입니다.");
         // else if (!(Objects.equals(password, passwordCheck))) throw new RuntimeException("비밀번호가 일치하지 않습니다.");
@@ -70,8 +75,7 @@ public class MemberService {
                 .build();
     }
 
-    // 재발급 구현은 다 했는데 아직 포스트맨 테스트 안 했음
-    // 코드 중간중간에 주석 아직 안 달았음
+    // AccessToken 재발급
     public LoginResponseDto refresh(String refreshTokenValue){
         // 해당 RefreshToken이 유효한지 DB에서 탐색
         RefreshToken refreshToken = refreshTokenService.findRefreshToken(refreshTokenValue);
@@ -97,6 +101,13 @@ public class MemberService {
                 .build();
     }
 
+    // 회원탈퇴
+    public String delete(Authentication authentication){
+        Member member = getLoginMember();
+        memberRepository.delete(member);
+        return "회원탈퇴가 완료되었습니다.";
+    }
+
     // 회원 가입 시 입력한 아이디를 가진 member 존재 여부 확인
     @Transactional(readOnly = true)
     public boolean existsByCooksaveId(String cooksaveId){
@@ -108,5 +119,14 @@ public class MemberService {
     public Member findMemberByCooksaveId(String cooksaveId){
         return memberRepository.findByCooksaveId(cooksaveId)
                 .orElseThrow(() -> new EntityNotFoundException("아이디가 " + cooksaveId + "인 회원이 존재하지 않습니다."));
+    }
+
+    // 현재 로그인한 member 불러오기
+    public Member getLoginMember(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String cooksaveId = authentication.getName();
+        System.out.println(cooksaveId + "getName에서 나온 거");
+        return memberRepository.findByCooksaveId(cooksaveId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "인증된 회원 정보가 없습니다."));
     }
 }

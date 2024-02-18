@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -26,9 +25,9 @@ public class SecurityConfig {
         return httpSecurity.httpBasic(HttpBasicConfigurer::disable)
                 .csrf(CsrfConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize
+                .authorizeHttpRequests(request -> request
                 .requestMatchers("/members/signup", "/members/login", "/members/refreshtoken").permitAll()  // 회원가입, 로그인은 무조건 허용
-                .requestMatchers(HttpMethod.POST, "/members/**").authenticated())  // 모든 POST 요청과, /members/로 시작하는 다른 URI의 모든 요청은 인증 요구
+                        .anyRequest().authenticated())
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // JWT를 사용하므로 stateless
                 .addFilterBefore(new JwtFilter(secretKey), UsernamePasswordAuthenticationFilter.class)
                 .build();
