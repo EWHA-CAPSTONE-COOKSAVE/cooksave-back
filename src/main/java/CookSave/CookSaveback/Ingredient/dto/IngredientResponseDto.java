@@ -3,7 +3,7 @@ package CookSave.CookSaveback.Ingredient.dto;
 import CookSave.CookSaveback.Ingredient.domain.Ingredient;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
@@ -13,7 +13,7 @@ public class IngredientResponseDto {
     private String name;
     private Integer price;
     private Float amount;
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Builder
     public IngredientResponseDto(Ingredient ingredient){
