@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +22,7 @@ public class IngredientService {
     private final IconRepository iconRepository;
     private final IngredientRepository ingredientRepository;
 
+    // 전체 재료 조회
     public List<IngredientResponseDto> getIngredientList() {
         List<Ingredient> ingredients = new ArrayList<>();
         Member member = memberService.getLoginMember();
