@@ -125,7 +125,6 @@ public class MemberService {
     public Member getLoginMember(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String cooksaveId = authentication.getName();
-        System.out.println(cooksaveId + "getName에서 나온 거");
         return memberRepository.findByCooksaveId(cooksaveId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "인증된 회원 정보가 없습니다."));
     }
