@@ -70,8 +70,6 @@ public class MemberService {
                 .build();
     }
 
-    // 재발급 구현은 다 했는데 아직 포스트맨 테스트 안 했음
-    // 코드 중간중간에 주석 아직 안 달았음
     public LoginResponseDto refresh(String refreshTokenValue){
         // 해당 RefreshToken이 유효한지 DB에서 탐색
         RefreshToken refreshToken = refreshTokenService.findRefreshToken(refreshTokenValue);
