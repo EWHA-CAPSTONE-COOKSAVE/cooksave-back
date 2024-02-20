@@ -76,6 +76,7 @@ public class IngredientService {
             Icon icon = iconRepository.findById(iconId)
                     .orElseThrow(() -> new EntityNotFoundException("iconId " + iconId + "인 아이콘이 존재하지 않습니다."));
             Float amount = updateRequestDtos.get(i).getAmount();
+
             originalIngredients.get(i).updateIngredient(icon, amount);
             ingredientRepository.save(originalIngredients.get(i));
         }
