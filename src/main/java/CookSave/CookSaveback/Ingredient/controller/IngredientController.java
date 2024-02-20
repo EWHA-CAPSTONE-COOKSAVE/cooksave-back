@@ -33,6 +33,7 @@ public class IngredientController {
         return new ResponseEntity<>("재료가 등록되었습니다.", HttpStatus.CREATED);
     }
 
+    // 재료 목록에서 iconId, amount 수정
     @PatchMapping("/list")
     @ResponseStatus(value = HttpStatus.OK)
     public String updateIngredientList(@RequestBody List<UpdateRequestDto> updateRequestDtoList){
