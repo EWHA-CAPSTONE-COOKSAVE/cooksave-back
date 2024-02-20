@@ -8,7 +8,6 @@ import CookSave.CookSaveback.Ingredient.dto.IngredientResponseDto;
 import CookSave.CookSaveback.Ingredient.dto.UpdateRequestDto;
 import CookSave.CookSaveback.Ingredient.repository.IngredientRepository;
 import CookSave.CookSaveback.Member.domain.Member;
-import CookSave.CookSaveback.Member.service.MemberService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,14 +18,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class IngredientService {
-    private final MemberService memberService;
     private final IconRepository iconRepository;
     private final IngredientRepository ingredientRepository;
 
     // 전체 재료 조회
-    public List<IngredientResponseDto> getIngredientList() {
+    public List<IngredientResponseDto> getIngredientList(Member member) {
         List<Ingredient> ingredients = new ArrayList<>();
-        Member member = memberService.getLoginMember();
         ingredients = ingredientRepository.findAllByMember(member);
 
         List<IngredientResponseDto> ingredientList = new ArrayList<>();
@@ -37,11 +34,8 @@ public class IngredientService {
         return ingredientList;
     }
 
-    public void createIngredients(List<IngredientRequestDto> ingredientDtos){
+    public void createIngredients(Member member, List<IngredientRequestDto> ingredientDtos){
         List<Ingredient> ingredients = new ArrayList<>();
-
-        // 현재 로그인한 member 불러오기
-        Member member = memberService.getLoginMember();
 
         for (IngredientRequestDto ingredientDto : ingredientDtos){
             Icon icon = iconRepository.findById(ingredientDto.getIconId())
@@ -58,11 +52,8 @@ public class IngredientService {
         }
     }
 
-    public void updateIngredients(List<UpdateRequestDto> updateRequestDtos){
+    public void updateIngredients(Member member, List<UpdateRequestDto> updateRequestDtos){
         List<Ingredient> ingredients = new ArrayList<>();
-
-        // 현재 로그인한 member 불러오기
-        Member member = memberService.getLoginMember();
 
         // 업데이트 할 ingredient 개수 구하기
         Long count = ingredientRepository.countAllByMember(member);
@@ -82,8 +73,7 @@ public class IngredientService {
         }
     }
 
-    public void deleteIngredient(Long ingredientId){
-        Member member = memberService.getLoginMember();
+    public void deleteIngredient(Member member, Long ingredientId){
         Ingredient ingredient = ingredientRepository.findByIngredientIdAndMember(ingredientId, member)
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 접근입니다."));
         ingredientRepository.delete(ingredient);
