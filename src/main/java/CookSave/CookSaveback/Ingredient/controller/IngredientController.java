@@ -2,6 +2,7 @@ package CookSave.CookSaveback.Ingredient.controller;
 
 import CookSave.CookSaveback.Ingredient.dto.IngredientRequestDto;
 import CookSave.CookSaveback.Ingredient.dto.IngredientResponseDto;
+import CookSave.CookSaveback.Ingredient.dto.SubtractRequestDto;
 import CookSave.CookSaveback.Ingredient.dto.UpdateRequestDto;
 import CookSave.CookSaveback.Ingredient.service.IngredientService;
 import CookSave.CookSaveback.Member.domain.Member;
@@ -54,5 +55,14 @@ public class IngredientController {
         Member member = memberService.getLoginMember();
         ingredientService.deleteIngredient(member, ingredientId);
         return "재료가 삭제되었습니다.";
+    }
+
+    // 등록되어 있는 레시피 재료 차감
+    @PatchMapping("/recipes/{recipe_id}/ingredients")
+    @ResponseStatus(value = HttpStatus.OK)
+    public String SubtractIngredient(@PathVariable("recipe_id") Long recipeId, @RequestBody List<SubtractRequestDto> subtractDtoList){
+        Member member = memberService.getLoginMember();
+        ingredientService.subtractIngredient(member, subtractDtoList);
+        return "재료가 차감되었습니다.";
     }
 }
