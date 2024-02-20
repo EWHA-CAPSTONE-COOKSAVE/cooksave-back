@@ -65,4 +65,13 @@ public class IngredientController {
         ingredientService.subtractIngredient(member, subtractDtoList);
         return "재료가 차감되었습니다.";
     }
+
+    // 사용자 입력 레시피 재료 차감
+    @PatchMapping("/recipes/input/ingredients")
+    @ResponseStatus(value = HttpStatus.OK)
+    public String SubtractIngredient(@RequestBody List<SubtractRequestDto> subtractDtoList){
+        Member member = memberService.getLoginMember();
+        ingredientService.subtractIngredient(member, subtractDtoList);
+        return "재료가 차감되었습니다.";
+    }
 }
