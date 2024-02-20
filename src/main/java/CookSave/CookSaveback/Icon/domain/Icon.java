@@ -12,7 +12,7 @@ public class Icon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
-    private Long iconId;
+    private Integer iconId;
 
     @Column(nullable = false)
     private String image;  // 아이콘 이미지 URL

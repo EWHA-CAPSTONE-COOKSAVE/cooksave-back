@@ -24,7 +24,7 @@ public class Ingredient extends BaseTimeEntity {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tag_id", nullable = false)
+    @JoinColumn(name = "tag_id")  // 태그 지정 방식 정한 후 nullable=false 설정 여부 결정
     private Tag tag;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,6 +47,11 @@ public class Ingredient extends BaseTimeEntity {
         this.icon = icon;
         this.name = name;
         this.price = price;
+        this.amount = amount;
+    }
+
+    public void updateIngredient(Icon icon, Float amount){
+        this.icon = icon;
         this.amount = amount;
     }
 }
