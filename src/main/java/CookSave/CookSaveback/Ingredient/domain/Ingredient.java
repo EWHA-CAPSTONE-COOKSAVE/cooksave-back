@@ -54,4 +54,8 @@ public class Ingredient extends BaseTimeEntity {
         this.icon = icon;
         this.amount = amount;
     }
+
+    public void updateSubtractedIngredient(Float amount){
+        this.amount = amount;
+    }
 }
