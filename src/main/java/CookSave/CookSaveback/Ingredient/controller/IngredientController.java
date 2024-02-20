@@ -40,4 +40,12 @@ public class IngredientController {
         ingredientService.updateIngredients(updateRequestDtoList);
         return "재료가 수정되었습니다.";
     }
+
+    // 재료 삭제
+    @DeleteMapping("/list/{ingredient_id}")
+    @ResponseStatus(value=HttpStatus.OK)
+    public String deleteIngredient(@PathVariable("ingredient_id") Long ingredientId){
+        ingredientService.deleteIngredient(ingredientId);
+        return "재료가 삭제되었습니다.";
+    }
 }

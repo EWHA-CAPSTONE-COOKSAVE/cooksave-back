@@ -81,4 +81,11 @@ public class IngredientService {
             ingredientRepository.save(originalIngredients.get(i));
         }
     }
+
+    public void deleteIngredient(Long ingredientId){
+        Member member = memberService.getLoginMember();
+        Ingredient ingredient = ingredientRepository.findByIngredientIdAndMember(ingredientId, member)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 접근입니다."));
+        ingredientRepository.delete(ingredient);
+    }
 }
