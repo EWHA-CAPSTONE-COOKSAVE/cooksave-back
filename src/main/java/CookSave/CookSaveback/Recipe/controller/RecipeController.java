@@ -2,6 +2,7 @@ package CookSave.CookSaveback.Recipe.controller;
 
 import CookSave.CookSaveback.Member.domain.Member;
 import CookSave.CookSaveback.Member.service.MemberService;
+import CookSave.CookSaveback.Recipe.dto.RecipeDetailResponseDto;
 import CookSave.CookSaveback.Recipe.dto.RecipeResponseDto;
 import CookSave.CookSaveback.Recipe.service.RecipeService;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +27,11 @@ public class RecipeController {
         return recipeService.getRecipeList(member);
     }
 
-
-    /*
+    // 레시피 상세 조회
     @GetMapping("/{recipe_id}")
     @ResponseStatus(value = HttpStatus.OK)
     public RecipeDetailResponseDto getRecipeDetail(@PathVariable("recipe_id") Long recipeId){
         Member member = memberService.getLoginMember();
         return recipeService.getRecipeDetail(recipeId, member);
     }
-    */
 }

@@ -100,7 +100,7 @@ public class RecipeService {
         }
     }
 
-    /*
+    // 레시피 상세 조회
     public RecipeDetailResponseDto getRecipeDetail(Long recipeId, Member member){
 
          Recipe recipe = recipeRepository.findById(recipeId)
@@ -108,15 +108,23 @@ public class RecipeService {
 
         List<Ingredient> memberIngredients = ingredientRepository.findAllByMember(member);
 
+        List<Ingredient> recipeIngredients = new ArrayList<>();
+
         for (Ingredient ingredient : memberIngredients){
             Tag tag = tagRepository.findById(ingredient.getTag().getTagId())
                     .orElseThrow(() -> new EntityNotFoundException("tagId" + ingredient.getTag().getTagId() + "인 태그가 존재하지 않습니다."));
             if (recipeTagRepository.existsByRecipeAndTag(recipe, tag)){
-
+                recipeIngredients.add(ingredient);
             }
         }
 
-        RecipeDetailResponseDto detailResponseDto = new RecipeDetailResponseDto(recipe, ingredients);
+        List<IngredientResponseDto> ingredients = new ArrayList<>();
+
+        for (Ingredient ingredient : recipeIngredients){
+            IngredientResponseDto ingredientResponseDto = new IngredientResponseDto(ingredient);
+            ingredients.add(ingredientResponseDto);
+        }
+
+        return new RecipeDetailResponseDto(recipe, ingredients);
     }
-     */
 }
