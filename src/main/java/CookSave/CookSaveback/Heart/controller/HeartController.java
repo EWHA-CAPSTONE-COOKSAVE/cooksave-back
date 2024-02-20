@@ -6,10 +6,7 @@ import CookSave.CookSaveback.Member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,5 +21,13 @@ public class HeartController {
         Member member = memberService.getLoginMember();
         String response = heartService.heartRecipe(member, recipeId);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    // 레시피 찜 취소
+    @DeleteMapping("/{recipe_id}/hearts")
+    public ResponseEntity<String> cancelRecipeHeart(@PathVariable("recipe_id") Long recipeId){
+        Member member = memberService.getLoginMember();
+        String response = heartService.cancelRecipeHeart(member, recipeId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

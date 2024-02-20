@@ -30,5 +30,13 @@ public class HeartService {
         }
     }
 
-
+    @Transactional
+    public String cancelRecipeHeart(Member member, Long recipeId){
+        Recipe recipe = recipeRepository.findById(recipeId)
+                .orElseThrow(() -> new EntityNotFoundException("recipeId가 " + recipeId + "인 레시피가 없습니다."));
+        Heart heart = heartRepository.findByMemberAndRecipe(member, recipe)
+                .orElseThrow(() -> new EntityNotFoundException("해당 레시피는 찜 목록에 존재하지 않습니다."));
+        heartRepository.delete(heart);
+        return "recipeId가 " + recipeId + "인 레시피가 찜 목록에서 제거되었습니다.";
+    }
 }
