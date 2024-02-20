@@ -5,6 +5,7 @@ import CookSave.CookSaveback.Icon.repository.IconRepository;
 import CookSave.CookSaveback.Ingredient.domain.Ingredient;
 import CookSave.CookSaveback.Ingredient.dto.IngredientRequestDto;
 import CookSave.CookSaveback.Ingredient.dto.IngredientResponseDto;
+import CookSave.CookSaveback.Ingredient.dto.UpdateRequestDto;
 import CookSave.CookSaveback.Ingredient.repository.IngredientRepository;
 import CookSave.CookSaveback.Member.domain.Member;
 import CookSave.CookSaveback.Member.service.MemberService;
@@ -54,6 +55,29 @@ public class IngredientService {
                     .amount(ingredientDto.getAmount())
                     .build();
             ingredientRepository.save(ingredient);
+        }
+    }
+
+    public void updateIngredients(List<UpdateRequestDto> updateRequestDtos){
+        List<Ingredient> ingredients = new ArrayList<>();
+
+        // 현재 로그인한 member 불러오기
+        Member member = memberService.getLoginMember();
+
+        // 업데이트 할 ingredient 개수 구하기
+        Long count = ingredientRepository.countAllByMember(member);
+        int intCount = (int)(long)count;
+
+        List<Ingredient> originalIngredients = ingredientRepository.findAllByMember(member);
+
+        for (int i = 0; i<intCount; i++){
+            // 업데이트 할 iconId, amount 값 불러오기
+            Integer iconId = updateRequestDtos.get(i).getIconId();
+            Icon icon = iconRepository.findById(iconId)
+                    .orElseThrow(() -> new EntityNotFoundException("iconId " + iconId + "인 아이콘이 존재하지 않습니다."));
+            Float amount = updateRequestDtos.get(i).getAmount();
+            originalIngredients.get(i).updateIngredient(icon, amount);
+            ingredientRepository.save(originalIngredients.get(i));
         }
     }
 }

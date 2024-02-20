@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
     List<Ingredient> findAllByMember(Member member);
+    Long countAllByMember(Member member);
 }
