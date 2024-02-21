@@ -3,6 +3,7 @@ package CookSave.CookSaveback.History.service;
 import CookSave.CookSaveback.History.domain.History;
 import CookSave.CookSaveback.History.dto.BudgetRequestDto;
 import CookSave.CookSaveback.History.dto.HistoryIngredientReqDto;
+import CookSave.CookSaveback.History.dto.InputHistoryReqDto;
 import CookSave.CookSaveback.History.dto.RecipeHistoryReqDto;
 import CookSave.CookSaveback.History.repository.HistoryRepository;
 import CookSave.CookSaveback.HistoryIngredient.domain.HistoryIngredient;
@@ -39,6 +40,19 @@ public class HistoryService {
 
         // HistoryIngredient들 저장
         List<HistoryIngredientReqDto> historyIngredientReqDtos = recipeHistoryReqDto.getIngredients();
+        for(HistoryIngredientReqDto ingredientReqDto : historyIngredientReqDtos){
+            HistoryIngredient historyIngredient = new HistoryIngredient(history, ingredientReqDto.getName(), ingredientReqDto.getAmount(), ingredientReqDto.getPrice());
+            historyIngredientRepository.save(historyIngredient);
+        }
+    }
+
+    public void createInputHistory(Member member, InputHistoryReqDto inputHistoryReqDto) {
+        // History 저장
+        History history = new History(member, inputHistoryReqDto.getName(), inputHistoryReqDto.getTotal());
+        historyRepository.save(history);
+
+        // HistoryIngredient들 저장
+        List<HistoryIngredientReqDto> historyIngredientReqDtos = inputHistoryReqDto.getIngredients();
         for(HistoryIngredientReqDto ingredientReqDto : historyIngredientReqDtos){
             HistoryIngredient historyIngredient = new HistoryIngredient(history, ingredientReqDto.getName(), ingredientReqDto.getAmount(), ingredientReqDto.getPrice());
             historyIngredientRepository.save(historyIngredient);

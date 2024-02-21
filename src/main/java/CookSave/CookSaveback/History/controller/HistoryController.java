@@ -1,6 +1,7 @@
 package CookSave.CookSaveback.History.controller;
 
 import CookSave.CookSaveback.History.dto.BudgetRequestDto;
+import CookSave.CookSaveback.History.dto.InputHistoryReqDto;
 import CookSave.CookSaveback.History.dto.RecipeHistoryReqDto;
 import CookSave.CookSaveback.History.service.HistoryService;
 import CookSave.CookSaveback.Member.domain.Member;
@@ -29,6 +30,14 @@ public class HistoryController {
     public ResponseEntity<String> createRecipeHistory(@PathVariable("recipe_id") Long recipeId, @RequestBody RecipeHistoryReqDto recipeHistoryReqDto){
         Member member = memberService.getLoginMember();
         historyService.createRecipeHistory(member, recipeId, recipeHistoryReqDto);
+        return new ResponseEntity<>("요리 내역이 저장되었습니다.", HttpStatus.CREATED);
+    }
+
+    // 사용자 입력 레시피 요리 내역 저장
+    @PostMapping("/recipes/input/ingredients")
+    public ResponseEntity<String> createInputHistory(@RequestBody InputHistoryReqDto inputHistoryReqDto){
+        Member member = memberService.getLoginMember();
+        historyService.createInputHistory(member, inputHistoryReqDto);
         return new ResponseEntity<>("요리 내역이 저장되었습니다.", HttpStatus.CREATED);
     }
 }
