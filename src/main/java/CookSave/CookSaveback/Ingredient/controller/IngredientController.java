@@ -60,7 +60,7 @@ public class IngredientController {
     // 등록되어 있는 레시피 재료 차감
     @PatchMapping("/recipes/{recipe_id}/ingredients")
     @ResponseStatus(value = HttpStatus.OK)
-    public String SubtractIngredient(@PathVariable("recipe_id") Long recipeId, @RequestBody List<SubtractRequestDto> subtractDtoList){
+    public String subtractIngredient(@PathVariable("recipe_id") Long recipeId, @RequestBody List<SubtractRequestDto> subtractDtoList){
         Member member = memberService.getLoginMember();
         ingredientService.subtractIngredient(member, subtractDtoList);
         return "재료가 차감되었습니다.";
@@ -69,7 +69,7 @@ public class IngredientController {
     // 사용자 입력 레시피 재료 차감
     @PatchMapping("/recipes/input/ingredients")
     @ResponseStatus(value = HttpStatus.OK)
-    public String SubtractIngredient(@RequestBody List<SubtractRequestDto> subtractDtoList){
+    public String subtractIngredient(@RequestBody List<SubtractRequestDto> subtractDtoList){
         Member member = memberService.getLoginMember();
         ingredientService.subtractIngredient(member, subtractDtoList);
         return "재료가 차감되었습니다.";
