@@ -26,4 +26,8 @@ public class Member {
         this.cooksaveId = cooksaveId;
         this.password = password;
     }
+
+    public void updateBudget(Integer budget){
+        this.budget = budget;
+    }
 }
