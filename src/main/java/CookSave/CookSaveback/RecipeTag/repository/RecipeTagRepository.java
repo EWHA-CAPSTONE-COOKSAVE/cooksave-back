@@ -6,7 +6,10 @@ import CookSave.CookSaveback.Tag.domain.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RecipeTagRepository extends JpaRepository<RecipeTag, Long> {
     boolean existsByRecipeAndTag(Recipe recipe, Tag tag);
+    List<RecipeTag> findAllByRecipe(Recipe recipe);
 }
