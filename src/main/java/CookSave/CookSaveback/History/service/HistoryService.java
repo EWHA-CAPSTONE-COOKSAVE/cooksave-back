@@ -1,10 +1,7 @@
 package CookSave.CookSaveback.History.service;
 
 import CookSave.CookSaveback.History.domain.History;
-import CookSave.CookSaveback.History.dto.BudgetRequestDto;
-import CookSave.CookSaveback.History.dto.HistoryIngredientReqDto;
-import CookSave.CookSaveback.History.dto.InputHistoryReqDto;
-import CookSave.CookSaveback.History.dto.RecipeHistoryReqDto;
+import CookSave.CookSaveback.History.dto.*;
 import CookSave.CookSaveback.History.repository.HistoryRepository;
 import CookSave.CookSaveback.HistoryIngredient.domain.HistoryIngredient;
 import CookSave.CookSaveback.HistoryIngredient.repository.HistoryIngredientRepository;
@@ -16,6 +13,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,5 +55,18 @@ public class HistoryService {
             HistoryIngredient historyIngredient = new HistoryIngredient(history, ingredientReqDto.getName(), ingredientReqDto.getAmount(), ingredientReqDto.getPrice());
             historyIngredientRepository.save(historyIngredient);
         }
+    }
+
+    public HistoryDetailResDto getHistoryDetail(Long historyId, Member member){
+        History history = historyRepository.findById(historyId)
+                .orElseThrow(() -> new EntityNotFoundException("hisotoryId가 " + historyId + "인 요리 내역이 존재하지 않습니다."));
+        List<HistoryIngredient> historyIngredients = historyIngredientRepository.findAllByHistory(history);
+        List<HistoryIngredientResDto> ingredients = new ArrayList<>();
+
+        for(HistoryIngredient historyIngredient : historyIngredients){
+            HistoryIngredientResDto ingredient = new HistoryIngredientResDto(historyIngredient);
+            ingredients.add(ingredient);
+        }
+        return new HistoryDetailResDto(history, ingredients);
     }
 }
