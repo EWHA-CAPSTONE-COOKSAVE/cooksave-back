@@ -42,12 +42,14 @@ public class HistoryController {
         return new ResponseEntity<>("요리 내역이 저장되었습니다.", HttpStatus.CREATED);
     }
 
+    // 요리 내역 상세 조회
     @GetMapping("histories/{history_id}")
     public HistoryDetailResDto getHistoryDetail(@PathVariable("history_id") Long historyId){
         Member member = memberService.getLoginMember();
         return historyService.getHistoryDetail(historyId, member);
     }
 
+    // 요리 내역 삭제
     @DeleteMapping("histories/{history_id}")
     @ResponseStatus(value=HttpStatus.OK)
     public String deleteHistory(@PathVariable("history_id") Long historyId){
