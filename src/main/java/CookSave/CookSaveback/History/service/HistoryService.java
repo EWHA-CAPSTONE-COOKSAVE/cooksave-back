@@ -69,4 +69,12 @@ public class HistoryService {
         }
         return new HistoryDetailResDto(history, ingredients);
     }
+
+    public void deleteHistory(Member member, Long historyId){
+        History history = historyRepository.findByHistoryIdAndMember(historyId, member)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 접근입니다."));
+        List<HistoryIngredient> historyIngredients = historyIngredientRepository.findAllByHistory(history);
+        historyIngredientRepository.deleteAll(historyIngredients);
+        historyRepository.delete(history);
+    }
 }

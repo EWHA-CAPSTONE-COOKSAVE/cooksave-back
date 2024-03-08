@@ -47,4 +47,12 @@ public class HistoryController {
         Member member = memberService.getLoginMember();
         return historyService.getHistoryDetail(historyId, member);
     }
+
+    @DeleteMapping("histories/{history_id}")
+    @ResponseStatus(value=HttpStatus.OK)
+    public String deleteHistory(@PathVariable("history_id") Long historyId){
+        Member member = memberService.getLoginMember();
+        historyService.deleteHistory(member, historyId);
+        return "요리 내역이 삭제되었습니다.";
+    }
 }
