@@ -35,6 +35,10 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 }
 
+jar {
+	enabled = false
+}
+
 tasks.named('bootBuildImage') {
 	builder = 'paketobuildpacks/builder-jammy-base:latest'
 }
