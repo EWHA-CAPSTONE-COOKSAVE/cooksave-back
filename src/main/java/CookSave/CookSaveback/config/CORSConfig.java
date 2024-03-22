@@ -14,6 +14,8 @@ public class CORSConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("https://www.cooksave.co.kr");
+        config.addAllowedOrigin("http://api.cooksave.co.kr");
+        config.addAllowedOrigin("https://api.cooksave.co.kr");
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
